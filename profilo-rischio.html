@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profilo di Rischio</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,21 +12,52 @@
       display:flex;justify-content:center;align-items:center;height:100vh;margin:0;
       color:#333;
     }
+
     .card {
-      background:white;padding:30px;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,0.2);width:380px;
+      background:white;padding:30px;border-radius:16px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.2);width:380px;
     }
+
     h2 {text-align:center;margin-bottom:10px;color:#0a2540;}
+
     label {display:block;margin-top:15px;font-weight:bold;}
     select {width:100%;padding:8px;margin-top:5px;border-radius:6px;border:1px solid #ccc;}
-    button {margin-top:20px;width:100%;padding:10px;background:#0a2540;color:white;border:none;border-radius:6px;cursor:pointer;font-size:16px;}
+
+    button {
+      margin-top:20px;width:100%;padding:10px;background:#0a2540;
+      color:white;border:none;border-radius:6px;cursor:pointer;font-size:16px;
+    }
+
     .result {margin-top:15px;text-align:center;font-weight:bold;}
     .explain {margin-top:10px;font-size:14px;color:#555;}
-    canvas {margin-top:20px;}
+
+    /* Indicatore circolare */
+    .circle-container {
+      width:140px;
+      height:140px;
+      margin:20px auto 0;
+      position:relative;
+    }
+
+    .circle-container svg {
+      transform:rotate(-90deg);
+    }
+
+    .circle-text {
+      position:absolute;
+      top:50%;left:50%;
+      transform:translate(-50%, -50%);
+      font-size:20px;
+      font-weight:bold;
+      color:#0a2540;
+    }
   </style>
 </head>
+
 <body>
 
 <div class="card">
+
   <h2>Profilo di Rischio</h2>
 
   <label>Tolleranza al rischio</label>
@@ -57,57 +89,85 @@
   <div class="result" id="risultato"></div>
   <div class="explain" id="spiegazione"></div>
 
-  <canvas id="grafico" width="300" height="150"></canvas>
+  <!-- Indicatore circolare -->
+  <div class="circle-container" id="circleBox" style="display:none;">
+    <svg width="140" height="140">
+      <circle cx="70" cy="70" r="60" stroke="#e6e6e6" stroke-width="12" fill="none"></circle>
+      <circle id="progressCircle" cx="70" cy="70" r="60"
+              stroke="#0a2540" stroke-width="12" fill="none"
+              stroke-linecap="round"
+              stroke-dasharray="377"
+              stroke-dashoffset="377"></circle>
+    </svg>
+    <div class="circle-text" id="circleText">0%</div>
+  </div>
+
 </div>
 
 <script>
 function calcolaMedia(){
-  let t=parseFloat(document.getElementById('tolleranza').value);
-  let c=parseFloat(document.getElementById('capacita').value);
-  let n=parseFloat(document.getElementById('necessita').value);
+  let t = parseFloat(document.getElementById('tolleranza').value);
+  let c = parseFloat(document.getElementById('capacita').value);
+  let n = parseFloat(document.getElementById('necessita').value);
 
-  if(isNaN(t)||isNaN(c)||isNaN(n)){
-    document.getElementById('risultato').innerText="Completa tutte le selezioni";
+  if(isNaN(t) || isNaN(c) || isNaN(n)){
+    document.getElementById('risultato').innerText = "Completa tutte le selezioni";
     return;
   }
 
-  let media=(t+c+n)/3;
-  let y=Math.round(media);
+  let media = (t + c + n) / 3;
+  let y = Math.round(media);
 
-  let profilo="";
-  let spiegazione="";
+  let profilo = "";
+  let spiegazione = "";
 
-  if(y===2){
-    profilo="Alto";
-    spiegazione="Profilo aggressivo: orientato alla crescita con alta volatilità.";
-  } else if(y===3){
-    profilo="Medio";
-    spiegazione="Profilo bilanciato: equilibrio tra rischio e rendimento.";
+  if(y === 2){
+    profilo = "Alto";
+    spiegazione = "Profilo aggressivo: orientato alla crescita con alta volatilità.";
+  } else if(y === 3){
+    profilo = "Medio";
+    spiegazione = "Profilo bilanciato: equilibrio tra rischio e rendimento.";
   } else {
-    profilo="Basso";
-    spiegazione="Profilo prudente: focus su stabilità e protezione del capitale.";
+    profilo = "Basso";
+    spiegazione = "Profilo prudente: focus su stabilità e protezione del capitale.";
   }
 
-  document.getElementById('risultato').innerText=`Media: ${media.toFixed(2)} | Y = ${y} (${profilo})`;
-  document.getElementById('spiegazione').innerText=spiegazione;
+  // Formula % massima azioni
+  let maxAzioni = 1.33778256608982 / media;
+  let percentualeAzioni = (maxAzioni * 100).toFixed(2);
 
-  disegnaGrafico(t,c,n);
+  document.getElementById('risultato').innerHTML =
+    `Media: ${media.toFixed(2)} | Y = ${y} (${profilo})<br>
+     Max % Azioni: ${percentualeAzioni}%`;
+
+  document.getElementById('spiegazione').innerText = spiegazione;
+
+  // Mostra indicatore circolare
+  aggiornaIndicatore(percentualeAzioni);
 }
 
-function disegnaGrafico(t,c,n){
-  let canvas=document.getElementById('grafico');
-  let ctx=canvas.getContext('2d');
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+function aggiornaIndicatore(percentuale){
+  const circle = document.getElementById("progressCircle");
+  const text = document.getElementById("circleText");
+  const box = document.getElementById("circleBox");
 
-  let valori=[t,c,n];
-  let labels=["T","C","N"];
+  box.style.display = "block";
 
-  for(let i=0;i<valori.length;i++){
-    let x=50+i*80;
-    let h=valori[i]*20;
-    ctx.fillRect(x,150-h,40,h);
-    ctx.fillText(labels[i],x+15,145);
-  }
+  const maxDash = 377; // circonferenza
+  const targetOffset = maxDash - (maxDash * percentuale / 100);
+
+  let current = 377;
+  let step = (current - targetOffset) / 40;
+
+  let anim = setInterval(() => {
+    current -= step;
+    if(current <= targetOffset){
+      current = targetOffset;
+      clearInterval(anim);
+    }
+    circle.style.strokeDashoffset = current;
+    text.innerText = percentuale + "%";
+  }, 15);
 }
 </script>
 
