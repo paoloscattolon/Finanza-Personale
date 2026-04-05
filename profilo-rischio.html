@@ -28,8 +28,7 @@
       color:white;border:none;border-radius:6px;cursor:pointer;font-size:16px;
     }
 
-    .result {margin-top:15px;text-align:center;font-weight:bold;}
-    .explain {margin-top:10px;font-size:14px;color:#555;}
+    .explain {margin-top:15px;text-align:center;font-size:16px;font-weight:bold;color:#0a2540;}
 
     .circle-container {
       width:140px;
@@ -67,7 +66,7 @@
     <option value="4">Bassa</option>
   </select>
 
-  <label>Capacità di rischio</label>
+  <label>Capacità di rischio cioè orizzonte temporale degli investimenti</label>
   <select id="capacita">
     <option value="">Seleziona</option>
     <option value="2">Lungo periodo (>20 anni)</option>
@@ -75,7 +74,7 @@
     <option value="4">Breve (<10 anni)</option>
   </select>
 
-  <label>Necessità di rischio</label>
+  <label>Necessità di rischio cioè quanto rendimento mi necessita per raggiungere i miei obiettivi</label>
   <select id="necessita">
     <option value="">Seleziona</option>
     <option value="2">Rendimento elevato</option>
@@ -96,7 +95,6 @@
 
   <button onclick="calcolaMedia()">Calcola</button>
 
-  <div class="result" id="risultato"></div>
   <div class="explain" id="spiegazione"></div>
 
   <div class="circle-container" id="circleBox" style="display:none;">
@@ -121,28 +119,13 @@ function calcolaMedia(){
   let r = parseFloat(document.getElementById('complessivo').value);
 
   if(isNaN(t) || isNaN(c) || isNaN(n) || isNaN(r)){
-    document.getElementById('risultato').innerText = "Completa tutte le selezioni";
+    document.getElementById('spiegazione').innerText = "Completa tutte le selezioni";
     return;
   }
 
   let media = (t + c + n + r) / 4;
-  let y = Math.round(media);
 
-  let profilo = "";
-  let spiegazione = "";
-
-  if(y <= 2){
-    profilo = "Basso";
-    spiegazione = "Profilo prudente: stabilità e protezione del capitale.";
-  } else if(y <= 4){
-    profilo = "Medio";
-    spiegazione = "Profilo bilanciato: equilibrio tra rischio e rendimento.";
-  } else {
-    profilo = "Alto";
-    spiegazione = "Profilo aggressivo: orientato alla crescita con alta volatilità.";
-  }
-
-  // Formula originale × coefficiente finale
+  // Formula × coefficiente finale
   let maxAzioni = (1.33778256608982 / media) * r;
 
   // Limiti 0–100%
@@ -150,11 +133,9 @@ function calcolaMedia(){
 
   let percentualeAzioni = (maxAzioni * 100).toFixed(2);
 
-  document.getElementById('risultato').innerHTML =
-    `Media: ${media.toFixed(2)} | Y = ${y} (${profilo})<br>
-     Max % Azioni: ${percentualeAzioni}%`;
-
-  document.getElementById('spiegazione').innerText = spiegazione;
+  // Testo finale richiesto
+  document.getElementById('spiegazione').innerText =
+    `% Azioni: ${percentualeAzioni}%`;
 
   aggiornaIndicatore(percentualeAzioni);
 }
