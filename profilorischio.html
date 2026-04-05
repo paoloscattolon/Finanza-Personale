@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profilo di Rischio</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#0a2540,#1e3c72);
+      display:flex;justify-content:center;align-items:center;height:100vh;margin:0;
+      color:#333;
+    }
+    .card {
+      background:white;padding:30px;border-radius:16px;box-shadow:0 10px 25px rgba(0,0,0,0.2);width:380px;
+    }
+    h2 {text-align:center;margin-bottom:10px;color:#0a2540;}
+    label {display:block;margin-top:15px;font-weight:bold;}
+    select {width:100%;padding:8px;margin-top:5px;border-radius:6px;border:1px solid #ccc;}
+    button {margin-top:20px;width:100%;padding:10px;background:#0a2540;color:white;border:none;border-radius:6px;cursor:pointer;font-size:16px;}
+    .result {margin-top:15px;text-align:center;font-weight:bold;}
+    .explain {margin-top:10px;font-size:14px;color:#555;}
+    canvas {margin-top:20px;}
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>Profilo di Rischio</h2>
+
+  <label>Tolleranza al rischio</label>
+  <select id="tolleranza">
+    <option value="">Seleziona</option>
+    <option value="2">Alta (forti oscillazioni)</option>
+    <option value="3">Media</option>
+    <option value="4">Bassa</option>
+  </select>
+
+  <label>Capacità di rischio</label>
+  <select id="capacita">
+    <option value="">Seleziona</option>
+    <option value="2">Lungo periodo (>20 anni)</option>
+    <option value="3">Medio (10-20 anni)</option>
+    <option value="4">Breve (<10 anni)</option>
+  </select>
+
+  <label>Necessità di rischio</label>
+  <select id="necessita">
+    <option value="">Seleziona</option>
+    <option value="2">Rendimento elevato</option>
+    <option value="3">Medio-alto</option>
+    <option value="4">Medio-basso</option>
+  </select>
+
+  <button onclick="calcolaMedia()">Calcola</button>
+
+  <div class="result" id="risultato"></div>
+  <div class="explain" id="spiegazione"></div>
+
+  <canvas id="grafico" width="300" height="150"></canvas>
+</div>
+
+<script>
+function calcolaMedia(){
+  let t=parseFloat(document.getElementById('tolleranza').value);
+  let c=parseFloat(document.getElementById('capacita').value);
+  let n=parseFloat(document.getElementById('necessita').value);
+
+  if(isNaN(t)||isNaN(c)||isNaN(n)){
+    document.getElementById('risultato').innerText="Completa tutte le selezioni";
+    return;
+  }
+
+  let media=(t+c+n)/3;
+  let y=Math.round(media);
+
+  let profilo="";
+  let spiegazione="";
+
+  if(y===2){
+    profilo="Alto";
+    spiegazione="Profilo aggressivo: orientato alla crescita con alta volatilità.";
+  } else if(y===3){
+    profilo="Medio";
+    spiegazione="Profilo bilanciato: equilibrio tra rischio e rendimento.";
+  } else {
+    profilo="Basso";
+    spiegazione="Profilo prudente: focus su stabilità e protezione del capitale.";
+  }
+
+  document.getElementById('risultato').innerText=`Media: ${media.toFixed(2)} | Y = ${y} (${profilo})`;
+  document.getElementById('spiegazione').innerText=spiegazione;
+
+  disegnaGrafico(t,c,n);
+}
+
+function disegnaGrafico(t,c,n){
+  let canvas=document.getElementById('grafico');
+  let ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  let valori=[t,c,n];
+  let labels=["T","C","N"];
+
+  for(let i=0;i<valori.length;i++){
+    let x=50+i*80;
+    let h=valori[i]*20;
+    ctx.fillRect(x,150-h,40,h);
+    ctx.fillText(labels[i],x+15,145);
+  }
+}
+</script>
+
+</body>
+</html>
