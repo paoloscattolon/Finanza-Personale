@@ -2,6 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Questionario ETF – Profilazione</title>
 
 <style>
@@ -43,7 +44,7 @@ button:hover { background: #004ecc; }
     border-radius: 10px;
 }
 
-/* --- BARRE ANIMATE --- */
+/* BARRE ANIMATE */
 .bar-container {
     width: 100%;
     background: #dce4ff;
@@ -59,7 +60,7 @@ button:hover { background: #004ecc; }
     transition: width 1.2s ease;
 }
 
-/* --- COLORI ETF (gradienti animati) --- */
+/* COLORI ETF (gradienti animati) */
 .EM      { background: linear-gradient(90deg, #ff7e5f, #feb47b); }
 .EU600   { background: linear-gradient(90deg, #6a11cb, #2575fc); }
 .ITA     { background: linear-gradient(90deg, #ff4e50, #f9d423); }
@@ -73,7 +74,7 @@ button:hover { background: #004ecc; }
 .ACWI    { background: linear-gradient(90deg, #30cfd0, #330867); }
 .NASDAQ  { background: linear-gradient(90deg, #7f00ff, #e100ff); }
 
-/* --- ICONA ETF (SVG minimal) --- */
+/* ICONA ETF */
 .etf-icon {
     width: 18px;
     height: 18px;
@@ -95,7 +96,7 @@ button:hover { background: #004ecc; }
 </div>
 
 <script>
-// --- DOMANDE ---
+// DOMANDE
 const domande = [
     { id: "Q1", testo: "Paesi sviluppati" },
     { id: "Q2", testo: "Mercati area euro" },
@@ -108,7 +109,23 @@ const domande = [
     { id: "Q9", testo: "Esposizione cambio euro/dollaro" }
 ];
 
-// --- PESI (identici ai tuoi) ---
+// INFO ETF (nome + ISIN)
+const etfInfo = {
+  EM:{nome:"iShares Core MSCI Emerging Markets IMI UCITS ETF",isin:"IE00BKM4GZ66"},
+  EU600:{nome:"Amundi Core STOXX Europe 600 UCITS ETF",isin:"LU0908500753"},
+  ITA:{nome:"Amundi FTSE MIB UCITS ETF",isin:"LU1681043086"},
+  EMU:{nome:"iShares Core MSCI EMU UCITS ETF",isin:"IE00B53QG562"},
+  ROBOT:{nome:"iShares Automation & Robotics UCITS ETF",isin:"IE00BYZK4552"},
+  MEGA:{nome:"WisdomTree Megatrends UCITS ETF",isin:"IE00BM67HT60"},
+  SP500:{nome:"iShares Core S&P 500 UCITS ETF",isin:"IE00B5BMR087"},
+  WORLD:{nome:"iShares Core MSCI World UCITS ETF",isin:"IE00B4L5Y983"},
+  ALLWORLD:{nome:"Vanguard FTSE All-World UCITS ETF",isin:"IE00B3RBWM25"},
+  SPDRW:{nome:"SPDR MSCI World UCITS ETF",isin:"IE00BFY0GT14"},
+  ACWI:{nome:"SPDR MSCI ACWI UCITS ETF",isin:"IE00B44Z5B48"},
+  NASDAQ:{nome:"Invesco NASDAQ-100 UCITS ETF",isin:"IE00B53SZB19"}
+};
+
+// PESI COMPLETI
 const pesi = {
     Q1:{ A:{EM:0,EU600:10,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:19,WORLD:250,ALLWORLD:-80,SPDRW:0,ACWI:0,NASDAQ:0},
          B:{EM:0,EU600:0,ITA:0,EMU:0,ROBOT:5,MEGA:5,SP500:0,WORLD:-80,ALLWORLD:250,SPDRW:0,ACWI:0,NASDAQ:0} },
@@ -138,9 +155,8 @@ const pesi = {
          B:{EM:0,EU600:0,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0} }
 };
 
-// --- GENERA DOMANDE ---
+// GENERA DOMANDE
 const form = document.getElementById("quizForm");
-
 domande.forEach(d => {
     const div = document.createElement("div");
     div.className = "question";
@@ -152,7 +168,7 @@ domande.forEach(d => {
     form.appendChild(div);
 });
 
-// --- CALCOLO RISULTATI ---
+// CALCOLO RISULTATI
 function calcolaRisultati() {
     let totale = { EM:0,EU600:0,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0 };
 
@@ -186,7 +202,10 @@ function calcolaRisultati() {
                         <circle cx="12" cy="12" r="10" fill="#00000022"></circle>
                         <text x="12" y="16" text-anchor="middle" font-size="10" fill="#000">${p.nome[0]}</text>
                     </svg>
-                    <strong>${p.nome}</strong> — ${p.perc}%
+
+                    <strong>${etfInfo[p.nome].nome}</strong>
+                    <span style="color:#555;">(${etfInfo[p.nome].isin})</span>
+                    — ${p.perc}%
                 </span>
 
                 <div class="bar-container">
