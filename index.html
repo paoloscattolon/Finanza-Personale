@@ -27,30 +27,26 @@
 
     nav a {
       color: white;
-      margin: 0 15px;
+      margin: 0 12px;
       text-decoration: none;
       font-weight: bold;
+      display: inline-block;
     }
 
-    /* --- BOTTONE QUESTIONARIO --- */
-    .btn-questionario {
-      display: inline-block;
-      margin: 20px auto;
-      padding: 14px 26px;
+    /* --- BOTTONE QUESTIONARIO NELLA NAVBAR --- */
+    .btn-questionario-nav {
+      padding: 8px 14px;
       background: linear-gradient(90deg, #0066ff, #00c6ff);
       color: white;
-      font-size: 18px;
+      border-radius: 8px;
       font-weight: bold;
-      border-radius: 10px;
-      text-decoration: none;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
       transition: 0.25s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    .btn-questionario:hover {
+    .btn-questionario-nav:hover {
       background: linear-gradient(90deg, #004ecc, #0090cc);
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
     }
 
     .container {
@@ -93,14 +89,13 @@
         padding: 0 15px;
       }
 
-      .btn-questionario {
-        font-size: 16px;
-        padding: 12px 20px;
+      nav a {
+        margin: 6px;
       }
 
-      nav a {
-        display: inline-block;
-        margin: 8px;
+      .btn-questionario-nav {
+        padding: 10px 16px;
+        font-size: 15px;
       }
     }
   </style>
@@ -119,12 +114,10 @@
   <a href="#">Chi sono</a>
   <a href="#">Contatti</a>
   <a href="profilo-rischio.html">Profilo di rischio</a>
-</nav>
 
-<!-- 🔵 BOTTONE QUESTIONARIO ETF -->
-<div style="text-align:center;">
-  <a href="questionario.html" class="btn-questionario">Accedi al Questionario ETF</a>
-</div>
+  <!-- 🔵 NUOVO PULSANTE NELLA NAVBAR -->
+  <a href="questionario.html" class="btn-questionario-nav">Questionario ETF</a>
+</nav>
 
 <div class="container">
   <div class="posts">
