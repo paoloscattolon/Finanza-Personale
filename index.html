@@ -4,23 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Blog Finanziario</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       background-color: #f4f6f8;
     }
+
     header {
       background-color: #0a2540;
       color: white;
       padding: 20px;
       text-align: center;
     }
+
     nav {
       background-color: #163a5f;
       padding: 10px;
       text-align: center;
     }
+
     nav a {
       color: white;
       margin: 0 15px;
@@ -42,6 +46,7 @@
       transition: 0.25s ease;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
+
     .btn-questionario:hover {
       background: linear-gradient(90deg, #004ecc, #0090cc);
       transform: translateY(-2px);
@@ -54,21 +59,25 @@
       margin: 20px auto;
       gap: 20px;
     }
+
     .posts {
       flex: 3;
     }
+
     .sidebar {
       flex: 1;
       background: white;
       padding: 15px;
       border-radius: 8px;
     }
+
     .post {
       background: white;
       padding: 20px;
       margin-bottom: 20px;
       border-radius: 8px;
     }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -76,8 +85,27 @@
       color: white;
       margin-top: 20px;
     }
+
+    /* --- RESPONSIVE MOBILE FIX --- */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        padding: 0 15px;
+      }
+
+      .btn-questionario {
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+
+      nav a {
+        display: inline-block;
+        margin: 8px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
 <header>
