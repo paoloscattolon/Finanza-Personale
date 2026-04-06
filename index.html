@@ -27,6 +27,27 @@
       text-decoration: none;
       font-weight: bold;
     }
+
+    /* --- BOTTONE QUESTIONARIO --- */
+    .btn-questionario {
+      display: inline-block;
+      margin: 20px auto;
+      padding: 14px 26px;
+      background: linear-gradient(90deg, #0066ff, #00c6ff);
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .btn-questionario:hover {
+      background: linear-gradient(90deg, #004ecc, #0090cc);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+    }
+
     .container {
       display: flex;
       max-width: 1200px;
@@ -65,14 +86,17 @@
 </header>
 
 <nav>
-  <nav>
   <a href="index.html">Home</a>
   <a href="#">Articoli</a>
   <a href="#">Chi sono</a>
   <a href="#">Contatti</a>
   <a href="profilo-rischio.html">Profilo di rischio</a>
-
 </nav>
+
+<!-- 🔵 BOTTONE QUESTIONARIO ETF -->
+<div style="text-align:center;">
+  <a href="questionario.html" class="btn-questionario">Accedi al Questionario ETF</a>
+</div>
 
 <div class="container">
   <div class="posts">
