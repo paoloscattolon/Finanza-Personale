@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Questionario ETF – Profilazione</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+h1 { text-align: center; }
+.question { margin-bottom: 25px; }
+label {
+    display: inline-block;
+    margin-right: 20px;
+    cursor: pointer;
+}
+button {
+    padding: 12px 20px;
+    background: #0066ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover { background: #004ecc; }
+.result-box {
+    margin-top: 40px;
+    padding: 20px;
+    background: #eef3ff;
+    border-radius: 10px;
+}
+
+/* --- BARRE ANIMATE --- */
+.bar-container {
+    width: 100%;
+    background: #dce4ff;
+    border-radius: 8px;
+    height: 20px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+.bar {
+    height: 100%;
+    width: 0%;
+    border-radius: 8px;
+    transition: width 1.2s ease;
+}
+
+/* --- COLORI ETF (gradienti animati) --- */
+.EM      { background: linear-gradient(90deg, #ff7e5f, #feb47b); }
+.EU600   { background: linear-gradient(90deg, #6a11cb, #2575fc); }
+.ITA     { background: linear-gradient(90deg, #ff4e50, #f9d423); }
+.EMU     { background: linear-gradient(90deg, #11998e, #38ef7d); }
+.ROBOT   { background: linear-gradient(90deg, #00c6ff, #0072ff); }
+.MEGA    { background: linear-gradient(90deg, #f7971e, #ffd200); }
+.SP500   { background: linear-gradient(90deg, #f953c6, #b91d73); }
+.WORLD   { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+.ALLWORLD{ background: linear-gradient(90deg, #43e97b, #38f9d7); }
+.SPDRW   { background: linear-gradient(90deg, #fa709a, #fee140); }
+.ACWI    { background: linear-gradient(90deg, #30cfd0, #330867); }
+.NASDAQ  { background: linear-gradient(90deg, #7f00ff, #e100ff); }
+
+/* --- ICONA ETF (SVG minimal) --- */
+.etf-icon {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>Questionario ETF</h1>
+
+<form id="quizForm"></form>
+
+<button type="button" onclick="calcolaRisultati()">Calcola Risultati</button>
+
+<div id="risultati" class="result-box" style="display:none;"></div>
+</div>
+
+<script>
+// --- DOMANDE ---
+const domande = [
+    { id: "Q1", testo: "Paesi sviluppati" },
+    { id: "Q2", testo: "Mercati area euro" },
+    { id: "Q3", testo: "Mercati Europa intera" },
+    { id: "Q4", testo: "Paesi emergenti" },
+    { id: "Q5", testo: "Italia" },
+    { id: "Q6", testo: "Titoli tecnologia" },
+    { id: "Q7", testo: "Megatrends" },
+    { id: "Q8", testo: "Mercato USA" },
+    { id: "Q9", testo: "Esposizione cambio euro/dollaro" }
+];
+
+// --- PESI (identici ai tuoi) ---
+const pesi = {
+    Q1:{ A:{EM:0,EU600:10,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:19,WORLD:250,ALLWORLD:-80,SPDRW:0,ACWI:0,NASDAQ:0},
+         B:{EM:0,EU600:0,ITA:0,EMU:0,ROBOT:5,MEGA:5,SP500:0,WORLD:-80,ALLWORLD:250,SPDRW:0,ACWI:0,NASDAQ:0} },
+
+    Q2:{ A:{EM:0,EU600:0,ITA:3,EMU:25,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0},
+         B:{EM:0,EU600:0,ITA:-3,EMU:-10,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0} },
+
+    Q3:{ A:{EM:0,EU600:30,ITA:5,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0},
+         B:{EM:0,EU600:-10,ITA:-5,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0} },
+
+    Q4:{ A:{EM:29,EU600:0,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:-20,ALLWORLD:10,SPDRW:0,ACWI:0,NASDAQ:0},
+         B:{EM:-29,EU600:0,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:20,ALLWORLD:-10,SPDRW:0,ACWI:0,NASDAQ:0} },
+
+    Q5:{ A:{EM:0,EU600:0,ITA:30,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0},
+         B:{EM:0,EU600:0,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0} },
+
+    Q6:{ A:{EM:4,EU600:0,ITA:0,EMU:0,ROBOT:20,MEGA:10,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:30},
+         B:{EM:0,EU600:0,ITA:0,EMU:0,ROBOT:-10,MEGA:-10,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:-10} },
+
+    Q7:{ A:{EM:4,EU600:0,ITA:0,EMU:0,ROBOT:10,MEGA:25,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:20},
+         B:{EM:0,EU600:0,ITA:0,EMU:0,ROBOT:-10,MEGA:-25,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:-10} },
+
+    Q8:{ A:{EM:0,EU600:0,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:30,WORLD:10,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:20},
+         B:{EM:10,EU600:10,ITA:0,EMU:10,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:30,SPDRW:0,ACWI:0,NASDAQ:0} },
+
+    Q9:{ A:{EM:-10,EU600:0,ITA:0,EMU:0,ROBOT:-5,MEGA:-5,SP500:-10,WORLD:-20,ALLWORLD:-20,SPDRW:20,ACWI:20,NASDAQ:-5},
+         B:{EM:0,EU600:0,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0} }
+};
+
+// --- GENERA DOMANDE ---
+const form = document.getElementById("quizForm");
+
+domande.forEach(d => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.innerHTML = `
+        <strong>${d.testo}</strong><br>
+        <label><input type="radio" name="${d.id}" value="A"> Sovrapesare</label>
+        <label><input type="radio" name="${d.id}" value="B"> Sottopesare</label>
+    `;
+    form.appendChild(div);
+});
+
+// --- CALCOLO RISULTATI ---
+function calcolaRisultati() {
+    let totale = { EM:0,EU600:0,ITA:0,EMU:0,ROBOT:0,MEGA:0,SP500:0,WORLD:0,ALLWORLD:0,SPDRW:0,ACWI:0,NASDAQ:0 };
+
+    domande.forEach(d => {
+        const risposta = document.querySelector(`input[name="${d.id}"]:checked`);
+        if (!risposta) return;
+        const peso = pesi[d.id][risposta.value];
+        for (let etf in totale) totale[etf] += peso[etf];
+    });
+
+    const top3 = Object.entries(totale)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,3);
+
+    const sommaTop3 = top3.reduce((acc, item) => acc + item[1], 0);
+
+    const percentuali = top3.map(([nome, valore]) => {
+        const perc = Math.round((valore / sommaTop3) * 100);
+        return { nome, valore, perc };
+    });
+
+    document.getElementById("risultati").style.display = "block";
+    document.getElementById("risultati").innerHTML = `
+        <h2>Risultati</h2>
+        <h3>Top 3 ETF (normalizzati a 100%)</h3>
+
+        ${percentuali.map(p => `
+            <div style="margin-bottom:20px;">
+                <span>
+                    <svg class="etf-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" fill="#00000022"></circle>
+                        <text x="12" y="16" text-anchor="middle" font-size="10" fill="#000">${p.nome[0]}</text>
+                    </svg>
+                    <strong>${p.nome}</strong> — ${p.perc}%
+                </span>
+
+                <div class="bar-container">
+                    <div class="bar ${p.nome}" data-width="${p.perc}%"></div>
+                </div>
+            </div>
+        `).join("")}
+    `;
+
+    setTimeout(() => {
+        document.querySelectorAll(".bar").forEach(bar => {
+            bar.style.width = bar.getAttribute("data-width");
+        });
+    }, 100);
+}
+</script>
+
+</body>
+</html>
