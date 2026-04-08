@@ -1,0 +1,185 @@
+/* ------------------------------
+   TIPOGRAFIA E BASE
+------------------------------ */
+
+body {
+    font-family: "Inter", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f7;
+    color: #222;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-top: 0;
+}
+
+/* ------------------------------
+   HEADER PROFESSIONALE
+------------------------------ */
+
+.header-pro {
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-pro h1 {
+    font-size: 2.4rem;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* ------------------------------
+   NAVBAR
+------------------------------ */
+
+nav {
+    margin-top: 15px;
+}
+
+nav a {
+    margin: 0 12px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+nav a.active,
+nav a:hover {
+    color: #0077cc;
+}
+
+/* ------------------------------
+   SEZIONE LINK PRINCIPALI
+------------------------------ */
+
+.links-pro {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px 20px;
+}
+
+.link-card {
+    background: white;
+    padding: 20px;
+    width: 280px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #222;
+    border: 1px solid #e5e5e5;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.link-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #ccc;
+}
+
+.link-card h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+}
+
+/* ------------------------------
+   ARTICOLI RECENTI
+------------------------------ */
+
+.articoli-home {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.articolo-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #e5e5e5;
+    transition: all 0.2s ease;
+}
+
+.articolo-card:hover {
+    border-color: #ccc;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+.articolo-card a {
+    color: #0077cc;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.articolo-card a:hover {
+    text-decoration: underline;
+}
+
+/* ------------------------------
+   CATEGORIE
+------------------------------ */
+
+.categorie {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.categorie ul {
+    list-style: none;
+    padding: 0;
+}
+
+.categorie li {
+    background: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #e5e5e5;
+}
+
+/* ------------------------------
+   CHI SONO
+------------------------------ */
+
+.chi-sono-home {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+}
+
+/* ------------------------------
+   FOOTER
+------------------------------ */
+
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+footer strong {
+    color: #333;
+}

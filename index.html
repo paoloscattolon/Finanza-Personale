@@ -1,131 +1,84 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog Finanziario</title>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f4f6f8;
-    }
-
-    header {
-      background-color: #0a2540;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    nav {
-      background-color: #163a5f;
-      padding: 10px;
-      text-align: center;
-    }
-
-    nav a {
-      color: white;
-      margin: 0 12px;
-      text-decoration: none;
-      font-weight: bold;
-      display: inline-block;
-    }
-
-    .container {
-      display: flex;
-      max-width: 1200px;
-      margin: 20px auto;
-      gap: 20px;
-    }
-
-    .posts {
-      flex: 3;
-    }
-
-    .sidebar {
-      flex: 1;
-      background: white;
-      padding: 15px;
-      border-radius: 8px;
-    }
-
-    .post {
-      background: white;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: #0a2540;
-      color: white;
-      margin-top: 20px;
-    }
-
-    /* --- RESPONSIVE MOBILE FIX --- */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        padding: 0 15px;
-      }
-
-      nav a {
-        margin: 6px;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Finanziario</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
-  <h1>Il Mio Blog Finanziario</h1>
-  <p>Investimenti, mercati e strategie</p>
-</header>
+    <header class="header-pro">
+        <h1>Il Mio Blog Finanziario</h1>
+        <p class="subtitle">Investimenti, mercati e strategie spiegati con semplicità.</p>
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="#">Articoli</a>
-  <a href="#">Chi sono</a>
-  <a href="#">Contatti</a>
-  <a href="profilo-rischio.html">Profilo di rischio</a>
-  <a href="questionario.html">Questionario ETF</a>
-</nav>
+        <nav>
+            <a href="index.html" class="active">Home</a>
+            <a href="articoli.html">Articoli</a>
+            <a href="chi-sono.html">Chi sono</a>
+            <a href="contatti.html">Contatti</a>
+        </nav>
+    </header>
 
-<div class="container">
-  <div class="posts">
-    <div class="post">
-      <h2>Come iniziare a investire nel 2026</h2>
-      <p>Guida base per chi vuole entrare nei mercati finanziari...</p>
-    </div>
+    <main>
 
-    <div class="post">
-      <h2>ETF vs Azioni: cosa scegliere?</h2>
-      <p>Analisi dei vantaggi e degli svantaggi...</p>
-    </div>
-  </div>
+        <!-- SEZIONE LINK PRINCIPALI -->
+        <section class="links links-pro">
+            <a href="profilo.html" class="link-card">
+                <h3>Calcolo del profilo di rischio</h3>
+                <p>Scopri il tuo livello di rischio e la strategia più adatta a te.</p>
+            </a>
 
-  <aside class="sidebar">
-    <h3>Categorie</h3>
-    <ul>
-      <li>Investimenti</li>
-      <li>ETF</li>
-      <li>Criptovalute</li>
-      <li>Risparmio</li>
-    </ul>
+            <a href="questionario-etf.html" class="link-card">
+                <h3>Questionario ETF</h3>
+                <p>Valuta quali ETF sono più coerenti con il tuo profilo.</p>
+            </a>
+        </section>
 
-    <h3>Chi sono</h3>
-    <p>Appassionato di finanza e investimenti.</p>
-  </aside>
-</div>
+        <!-- ARTICOLI RECENTI -->
+        <section class="articoli-home">
+            <h2>Ultimi articoli</h2>
 
-<footer>
-  <p>© 2026 Blog Finanziario</p>
-</footer>
+            <div class="articolo-card">
+                <h3>Come iniziare a investire nel 2026</h3>
+                <p>Guida base per chi vuole entrare nei mercati finanziari...</p>
+                <a href="articolo1.html">Leggi di più</a>
+            </div>
+
+            <div class="articolo-card">
+                <h3>ETF vs Azioni: cosa scegliere?</h3>
+                <p>Analisi dei vantaggi e degli svantaggi...</p>
+                <a href="articolo2.html">Leggi di più</a>
+            </div>
+        </section>
+
+        <!-- CATEGORIE -->
+        <section class="categorie">
+            <h2>Categorie</h2>
+            <ul>
+                <li>Investimenti</li>
+                <li>ETF</li>
+                <li>Criptovalute</li>
+                <li>Risparmio</li>
+            </ul>
+        </section>
+
+        <!-- CHI SONO -->
+        <section class="chi-sono-home">
+            <h2>Chi sono</h2>
+            <p>Appassionato di finanza e investimenti.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><strong>Nota importante:</strong> Non sono un consulente finanziario e non offro raccomandazioni personalizzate. 
+        Quello che leggi qui è frutto di studio, passione e qualche errore commesso sulla mia pelle. 
+        Se vuoi seguire i miei consigli… fallo solo dopo averli messi in dubbio.</p>
+
+        <p>© 2026 Blog Finanziario</p>
+    </footer>
 
 </body>
 </html>
